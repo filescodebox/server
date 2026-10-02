@@ -1,23 +1,25 @@
-# FileCodeBox server 镜像(多模块版)
+# FileCodeBox server 镜像
 #
-# 构建上下文要求:filescodebox 工作区根目录(含 contracts/ core/ server/ frontend/ 四个 checkout)。
+# 依赖经 go.mod 正式版本解析(core/contracts 从 module proxy 拉取,无需本地 replace 链)。
+# 构建上下文要求:filescodebox 工作区根目录(含 server/ frontend/ 两个 checkout)。
 #   docker build -f server/Dockerfile -t filecodebox-server .
-# CI:把四个 repo checkout 到同一目录后执行上述命令。
+# GOPROXY 可用 --build-arg GOPROXY=... 覆盖(默认国内加速;CI 海外环境可传空串走默认)。
 
 # Stage 1: Build Frontend
 FROM node:20-alpine AS frontend-builder
 WORKDIR /frontend
+ARG NPM_REGISTRY=https://registry.npmmirror.com
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm ci
+RUN npm ci --registry=${NPM_REGISTRY}
 COPY frontend/ ./
 RUN npm run build
 
-# Stage 2: Build Go (server + core + contracts via replace 链)
-FROM golang:1.25-alpine AS go-builder
+# Stage 2: Build Go(server;core/contracts 经版本化依赖拉取)
+FROM golang:1.26-alpine AS go-builder
+ARG GOPROXY=https://goproxy.cn,direct
+ENV GOPROXY=${GOPROXY}
 WORKDIR /src
 RUN apk add --no-cache git
-COPY contracts/ ./contracts/
-COPY core/ ./core/
 COPY server/ ./server/
 WORKDIR /src/server
 RUN go mod download
