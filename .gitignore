@@ -1,0 +1,6 @@
+/server
+bin/
+data/
+logs/
+*.log
+.DS_Store
