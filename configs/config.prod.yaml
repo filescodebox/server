@@ -46,13 +46,18 @@ upload:
   upload_size: 10485760      # 10MB
   enable_chunk: true
   chunk_size: 2097152       # 2MB
-  max_save_seconds: 0      # 0 表示永不过期
+  max_save_seconds: 0      # deprecated（从未实现）；全局过期上限用 max_save_seconds_cap
+  # max_save_seconds_cap: 0             # 全局过期上限（秒），超过自动钳制；0 = 不限
+  # blocked_extensions: [".exe", ".bat", ".sh", ".js", ".jar", ".dll"]  # env: FCB_UPLOAD_BLOCKED_EXTENSIONS
+  # 匿名上传 per-IP 日配额（0 = 不限；env: FCB_UPLOAD_ANON_DAILY_COUNT / FCB_UPLOAD_ANON_DAILY_BYTES）
+  # anonymous_daily_count: 100
+  # anonymous_daily_bytes: 1073741824
   require_login: false
 
 # 下载配置
 download:
-  enable_concurrent_download: true
-  max_concurrent_downloads: 10
+  enable_concurrent_download: true   # deprecated（从未实现）
+  max_concurrent_downloads: 10       # deprecated（从未实现）
   download_timeout: 300     # 5分钟
   require_login: false
   # s3 直下：后端为 s3 时下载 302 到短时效预签名 URL（流量不过服务器）
@@ -123,3 +128,13 @@ notify:
 # MCP server（AI 客户端集成；POST /api/v1/mcp，管理员 JWT 认证）
 mcp:
   enabled: true             # FCB_MCP_ENABLED
+
+# 内容审核（默认关闭；FCB_MODERATION_ENABLED / FCB_MODERATION_BLOCKED_WORDS / FCB_MODERATION_BLOCK_ACTION）
+moderation:
+  enabled: false
+  # blocked_words: ["词1", "词2"]
+  block_action: reject      # reject=直接拒绝 | pending=待审进管理端队列
+
+# 管理端运维
+admin:
+  log_retention_days: 90    # 审计/传输日志保留天数，0=永久

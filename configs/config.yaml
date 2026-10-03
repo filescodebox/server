@@ -39,24 +39,31 @@ upload:
   upload_size: 10485760      # 10MB
   enable_chunk: true
   chunk_size: 2097152       # 2MB
-  max_save_seconds: 0      # 0 表示永不过期
+  max_save_seconds: 0       # deprecated（从未实现）；全局过期上限请用 max_save_seconds_cap
   require_login: false
   # 文本分享大小上限（字节），默认 222KB（对齐上游）
   text_max_bytes: 227328
-  # 扩展名白名单（非空则白名单优先；空 = 仅黑名单模式）
+  # 扩展名白名单（非空则必须命中，未命中拒绝；空 = 仅黑名单模式）
   # allowed_extensions: [".jpg", ".png", ".pdf", ".zip", ".docx"]
+  # 扩展名黑名单（非空则覆盖内置默认；白名单命中也拦截；env: FCB_UPLOAD_BLOCKED_EXTENSIONS）
+  # blocked_extensions: [".exe", ".bat", ".sh", ".js", ".jar", ".dll"]
   # 魔数校验（拦截改扩展名伪装的可执行文件），默认开
   enable_magic_check: true
   # 过期样式白名单（可裁剪；空 = minute/hour/day/week/month/year/forever 全放行）
   # allowed_expire_styles: ["day", "hour", "forever"]
+  # 全局过期时间上限（秒），超过自动钳制到该值；0 = 不限
+  max_save_seconds_cap: 0
   # 整文件大小上限（字节），适用于分片/预签名通道；0 = 不限。
   # 注意与 upload_size（单请求体上限）语义不同——分片上传的本义即突破单请求限制
   max_file_size: 0
+  # 匿名上传 per-IP 日配额（0 = 不限；env: FCB_UPLOAD_ANON_DAILY_COUNT / FCB_UPLOAD_ANON_DAILY_BYTES）
+  # anonymous_daily_count: 100
+  # anonymous_daily_bytes: 1073741824
 
 # 下载配置
 download:
-  enable_concurrent_download: true
-  max_concurrent_downloads: 10
+  enable_concurrent_download: true   # deprecated（从未实现）
+  max_concurrent_downloads: 10       # deprecated（从未实现）
   download_timeout: 300     # 5分钟
   require_login: false
   # s3 直下：后端为 s3 时下载 302 到短时效预签名 URL（流量不过服务器）
@@ -75,13 +82,25 @@ rate_limit:
   use_redis: false
 
 # 存储配置
+# type 支持: local / s3(含MinIO) / oss(阿里云) / cos(腾讯云) / bos(百度云) /
+#           ks3(金山云) / obs(华为云) / webdav
+# 云厂商均走 S3 兼容协议；endpoint 留空时按 region 自动推导，
+# 各厂商配置段字段: region/bucket/access_key/secret_key/endpoint/use_ssl/path_style
 storage:
-  type: "local"              # local, s3, webdav, onedrive, nfs
+  type: "local"
   storage_path: "./data/uploads"
-  # s3: null
-  # webdav: null
-  # onedrive: null
-  # nfs: null
+  # 腾讯云 COS 示例（endpoint 留空 = cos.<region>.myqcloud.com 自动推导）:
+  # type: "cos"
+  # cos:
+  #   region: "ap-guangzhou"
+  #   bucket: "mybucket-1250000000"
+  #   access_key: "COS_AK"
+  #   secret_key: "COS_SK"
+  # 阿里云 OSS 示例: type: "oss" + oss: {region: "cn-hangzhou", ...}
+  # 百度云 BOS: type: "bos" + bos: {region: "bj", ...}（S3 兼容端点 s3.<region>.bcebos.com）
+  # 金山云 KS3: type: "ks3" + ks3: {region: "BEIJING", ...}
+  # 华为云 OBS: type: "obs" + obs: {region: "cn-north-4", ...}
+  # AWS S3 / MinIO: type: "s3" + s3: {endpoint: "...", bucket: "...", access_key: "...", secret_key: "..."}
 
 # 用户配置
 user:
@@ -148,3 +167,14 @@ security:
 # MCP server（AI 客户端集成；POST /api/v1/mcp，管理员 JWT 认证）
 mcp:
   enabled: true             # FCB_MCP_ENABLED
+
+# 内容审核（治理 2026-10-03；默认关闭，词表空恒放行）
+moderation:
+  enabled: false            # FCB_MODERATION_ENABLED
+  # 敏感词表（子串匹配、大小写不敏感；FCB_MODERATION_BLOCKED_WORDS 逗号分隔）
+  # blocked_words: ["词1", "词2"]
+  block_action: reject      # reject=直接拒绝(30013) | pending=建分享后置待审进管理端队列
+
+# 管理端运维
+admin:
+  log_retention_days: 90    # 审计/传输日志保留天数，0=永久（FCB_ADMIN_LOG_RETENTION_DAYS）
