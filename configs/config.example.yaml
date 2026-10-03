@@ -135,6 +135,10 @@ security:
     max_attempts: 10
     window_seconds: 300
     lock_seconds: 600
+  # 用户级 API Key（个人访问令牌）认证总开关（env: FCB_API_TOKEN_ENABLED）。
+  # false 时携带 Key 的请求一律 401（紧急停用）
+  api_token:
+    enabled: true
   # 存储端点 SSRF 防护（局域网 MinIO/WebDAV 改 true）
   ssrf:
     allow_private_networks: false
