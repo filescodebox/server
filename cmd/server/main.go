@@ -37,6 +37,8 @@ func main() {
 	<-quit
 
 	logger.Info("Shutting down server...")
-	h.Shutdown(context.Background())
+	if err := h.Shutdown(context.Background()); err != nil {
+		logger.Error("Shutdown error", zap.Error(err))
+	}
 	logger.Info("Server stopped")
 }

@@ -155,7 +155,7 @@ func doReq(method, path string, body io.Reader, contentType string) (*apiResp, e
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 	var ar apiResp
 	if err := json.NewDecoder(resp.Body).Decode(&ar); err != nil {
 		return nil, fmt.Errorf("响应解析失败 (HTTP %d): %w", resp.StatusCode, err)
@@ -285,7 +285,7 @@ func putDirect(path string, expVal int, expStyle string, f *putFlags) error {
 	if err != nil {
 		return err
 	}
-	defer fh.Close()
+	defer func() { _ = fh.Close() }()
 
 	form := &bytes.Buffer{}
 	writer := multipart.NewWriter(form)
