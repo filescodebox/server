@@ -40,10 +40,13 @@ RUN apk --no-cache add ca-certificates tzdata wget && \
     chown -R app:app /app
 COPY --from=go-builder /out/server ./server
 COPY --from=frontend-builder /frontend/dist ./static/
+# OpenAPI 快照供 /openapi.json(core OpenAPISpec)与前端 API 文档页使用
+COPY --from=frontend-builder /frontend/openapi.json ./static/openapi.json
 COPY server/configs ./config/
 USER app
 EXPOSE 12345
 ENV TZ=Asia/Shanghai
+# wget --spider 发 HEAD,/live 未注册 HEAD 会 404 导致健康检查永不通过,须显式 GET
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:12345/live || exit 1
+    CMD wget -q -O /dev/null http://localhost:12345/live || exit 1
 CMD ["./server", "--config", "./config/config.yaml"]
