@@ -49,6 +49,9 @@ upload:
   enable_magic_check: true
   # 过期样式白名单（可裁剪；空 = minute/hour/day/week/month/year/forever 全放行）
   # allowed_expire_styles: ["day", "hour", "forever"]
+  # 整文件大小上限（字节），适用于分片/预签名通道；0 = 不限。
+  # 注意与 upload_size（单请求体上限）语义不同——分片上传的本义即突破单请求限制
+  max_file_size: 0
 
 # 下载配置
 download:

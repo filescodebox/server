@@ -38,6 +38,8 @@ github.com/filescodebox/contracts v0.2.0 h1:l+IYD+2DLt39Oi+J1jJnsEIsVODr7DkxfL8z
 github.com/filescodebox/contracts v0.2.0/go.mod h1:gnFnut5c+SdtJbo9p/JAtp1VIMVSq25GEA/4AU38N8I=
 github.com/filescodebox/core v0.3.0 h1:bf+DveIg/FA/11aCJIwnBUrLAvyjze5TwKbLjZ93TTA=
 github.com/filescodebox/core v0.3.0/go.mod h1:kn+CzLZxySpxcGSzu8WRYGhZt1jgYplMITz0nPkTOdE=
+github.com/filescodebox/core v0.3.1 h1:EzS7F4g1EFdQ41PHEGPqkz74uZmN8ckR1ZLIJ18f7V4=
+github.com/filescodebox/core v0.3.1/go.mod h1:kn+CzLZxySpxcGSzu8WRYGhZt1jgYplMITz0nPkTOdE=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=
 github.com/frankban/quicktest v1.14.6/go.mod h1:4ptaffx2x8+WTWXmUCuVU6aPUX1/Mz7zb5vbUoiM6w0=
 github.com/fsnotify/fsnotify v1.9.0 h1:2Ml+OJNzbYCTzsxtv8vKSFD9PbJjmhYF14k/jKC7S9k=
