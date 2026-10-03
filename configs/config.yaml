@@ -166,6 +166,11 @@ security:
   # 局域网 MinIO/WebDAV（飞牛 NAS）部署请改为 true
   ssrf:
     allow_private_networks: false
+  # 用户级 API Key（个人访问令牌）认证总开关（env: FCB_API_TOKEN_ENABLED）
+  api_token:
+    enabled: true
+    per_key_qps: 20           # 单 Key 独立限流（令牌桶）；0 = 不限
+    per_key_burst: 40
 
 # MCP server（AI 客户端集成；POST /api/v1/mcp，管理员 JWT 认证）
 mcp:

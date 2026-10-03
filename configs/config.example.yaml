@@ -139,6 +139,9 @@ security:
   # false 时携带 Key 的请求一律 401（紧急停用）
   api_token:
     enabled: true
+    # 单 Key 独立限流（令牌桶，进程内）：显式 0 = 不限；burst 0 = 2×QPS
+    per_key_qps: 20
+    per_key_burst: 40
   # 存储端点 SSRF 防护（局域网 MinIO/WebDAV 改 true）
   ssrf:
     allow_private_networks: false

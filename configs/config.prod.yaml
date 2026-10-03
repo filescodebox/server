@@ -120,6 +120,8 @@ security:
     lock_seconds: 600
   api_token:
     enabled: true                 # 用户级 API Key 总开关（env: FCB_API_TOKEN_ENABLED）
+    per_key_qps: 20               # 单 Key 令牌桶限流；0 = 不限
+    per_key_burst: 40
   ssrf:
     allow_private_networks: false  # 局域网 MinIO/WebDAV（飞牛 NAS）改 true
 
