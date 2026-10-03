@@ -57,7 +57,6 @@ upload:
   upload_size: 10485760    # 10MB；env: FCB_UPLOAD_SIZE / UPLOAD_SIZE
   enable_chunk: true
   chunk_size: 2097152      # 2MB
-  max_save_seconds: 0      # deprecated（从未实现）；全局过期上限用 max_save_seconds_cap
   # max_save_seconds_cap: 0             # 全局过期上限（秒），超过自动钳制；0 = 不限
   # 匿名上传 per-IP 日配额（0 = 不限；env: FCB_UPLOAD_ANON_DAILY_COUNT / FCB_UPLOAD_ANON_DAILY_BYTES）
   # anonymous_daily_count: 100
@@ -65,8 +64,6 @@ upload:
   require_login: false
 
 download:
-  enable_concurrent_download: true   # deprecated（从未实现）
-  max_concurrent_downloads: 10       # deprecated（从未实现）
   download_timeout: 300    # 秒
   require_login: false
   # s3 直下：后端为 s3 时下载 302 到短时效预签名 URL（流量不过服务器）
@@ -110,16 +107,11 @@ ui:
   show_admin_addr: false
   opacity: 1
 
-# 可观测性（Prometheus 指标 + OpenTelemetry 追踪）
+# 可观测性（Prometheus 指标；分布式追踪见路线图，未实装前不暴露配置）
 observability:
   metrics:
     enabled: true         # env: FCB_METRICS_ENABLED
     path: "/metrics"      # env: FCB_METRICS_PATH
-  tracing:
-    enabled: false        # env: FCB_TRACING_ENABLED
-    exporter: "otlp"      # otlp | stdout
-    endpoint: "localhost:4317"  # OTLP collector 地址
-    service_name: "filecodebox"
 
 # 安全配置
 security:
