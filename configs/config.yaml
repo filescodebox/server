@@ -26,10 +26,10 @@ log:
   compress: true
 
 app:
-  name: "FileCodeBox"
+  name: "FilesCodeBox"
   version: "1.0.0"
   description: "开箱即用的文件快传系统"
-  keywords: "FileCodeBox, 文件快递柜, 口令传送箱, 匿名口令分享文本, 文件"
+  keywords: "FilesCodeBox, 文件快递柜, 口令传送箱, 匿名口令分享文本, 文件"
   datapath: "./data"
   production: false
 
@@ -147,7 +147,10 @@ security:
     allow_credentials: false
     enable_hsts: false      # HTTPS 部署时开启
   # 可信代理网段（CIDR）。只有直连对端落在网段内才采信 X-Forwarded-For，
-  # 反向代理部署必填（如 nginx/traefik 所在网段），否则限流/锁定按直连 IP 判定
+  # 反向代理部署必填（如 nginx/traefik 所在网段），否则限流/失败锁定按直连 IP 判定
+  # （所有用户共享一个限流桶、误锁）。docker-compose 反代场景通常为
+  # ["172.18.0.0/16"]（默认 bridge/compose 网段，按 `docker network inspect` 实际调整）；
+  # 完整说明见 deploy/nginx/nginx.conf 头部"部署必读"。
   trusted_proxies: []
   # 取件下载令牌（时间窗 HMAC；取件接口下发，/share/download 强制校验）
   download_token:

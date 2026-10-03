@@ -1,4 +1,4 @@
-# FileCodeBox 配置示例（脱敏模板）
+# FilesCodeBox 配置示例（脱敏模板）
 #
 # 所有敏感配置（jwt_secret、数据库密码、Redis 密码）请通过环境变量注入，
 # 不要把真实密钥写入配置文件。环境变量优先级高于本文件。
@@ -41,7 +41,7 @@ log:
   compress: true
 
 app:
-  name: "FileCodeBox"
+  name: "FilesCodeBox"
   version: "1.0.0"
   description: "开箱即用的文件快传系统"
   datapath: "./data"       # env: FCB_DATA_PATH / DATA_PATH
