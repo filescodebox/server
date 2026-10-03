@@ -16,6 +16,13 @@ jobs:
         run: |
           go build ./...
           go vet ./...
+      - name: Test
+        run: go test ./...
+      # lockfile 一致性守卫（学习上游：依赖只改一半时 CI 即失败）
+      - name: Module verify
+        run: |
+          go mod verify
+          go mod download -x 2>&1 | tail -1
 
   docker:
     # main 推送时验证完整镜像(前端现场 npm ci 构建)

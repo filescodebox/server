@@ -48,6 +48,10 @@ app:
   production: false        # env: FCB_PRODUCTION / PRODUCTION（true 时强制校验 secret）
 
 upload:
+  # 文本分享大小上限（字节），默认 222KB；白名单/魔数见下
+  text_max_bytes: 227328
+  # allowed_extensions: [".jpg", ".png", ".pdf", ".zip"]
+  enable_magic_check: true
   open_upload: true        # env: FCB_OPEN_UPLOAD / OPEN_UPLOAD
   upload_size: 10485760    # 10MB；env: FCB_UPLOAD_SIZE / UPLOAD_SIZE
   enable_chunk: true
@@ -60,6 +64,9 @@ download:
   max_concurrent_downloads: 10
   download_timeout: 300    # 秒
   require_login: false
+  # s3 直下：后端为 s3 时下载 302 到短时效预签名 URL（流量不过服务器）
+  # 注意：对象存储桶需配置 CORS 允许站点来源（浏览器直传/直下场景）
+  s3_direct_download: false
 
 storage:
   type: "local"            # local | s3 | webdav
@@ -111,6 +118,21 @@ observability:
 
 # 安全配置
 security:
+  # 可信代理网段（CIDR）。仅当直连对端在网段内才采信 X-Forwarded-For
+  trusted_proxies: []
+  # 取件下载令牌（时间窗 HMAC）
+  download_token:
+    enabled: true
+    validity_seconds: 1000
+  # 登录/取件失败计数锁定
+  lockout:
+    enabled: true
+    max_attempts: 10
+    window_seconds: 300
+    lock_seconds: 600
+  # 存储端点 SSRF 防护（局域网 MinIO/WebDAV 改 true）
+  ssrf:
+    allow_private_networks: false
   cors:
     # 跨域可信来源白名单（逗号分隔，env: FCB_CORS_ALLOW_ORIGINS）。
     # 生产环境务必显式列出可信域名；留空时退化为反射 Origin（仅适合开发）。
@@ -118,3 +140,21 @@ security:
     # allow_credentials: false  # 是否允许携带凭证(Cookie)，生产白名单模式下建议 true
     # enable_hsts: false         # 启用 HSTS（仅 HTTPS 部署时开启，否则可能锁死 https）
 
+# 限流配置（路径感知分维度；use_redis=true 多实例共享计数）
+rate_limit:
+  enabled: true
+  global_qps: 100
+  upload_qps: 10
+  download_qps: 50
+  login_qps: 5
+  burst: 20
+  block_seconds: 60
+  use_redis: false
+
+# 通知（外部 Webhook 渠道）
+notify:
+  webhook_url: ""
+
+# MCP server（AI 客户端集成；POST /api/v1/mcp，管理员 JWT 认证）
+mcp:
+  enabled: true             # FCB_MCP_ENABLED

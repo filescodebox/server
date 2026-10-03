@@ -41,6 +41,14 @@ upload:
   chunk_size: 2097152       # 2MB
   max_save_seconds: 0      # 0 表示永不过期
   require_login: false
+  # 文本分享大小上限（字节），默认 222KB（对齐上游）
+  text_max_bytes: 227328
+  # 扩展名白名单（非空则白名单优先；空 = 仅黑名单模式）
+  # allowed_extensions: [".jpg", ".png", ".pdf", ".zip", ".docx"]
+  # 魔数校验（拦截改扩展名伪装的可执行文件），默认开
+  enable_magic_check: true
+  # 过期样式白名单（可裁剪；空 = minute/hour/day/week/month/year/forever 全放行）
+  # allowed_expire_styles: ["day", "hour", "forever"]
 
 # 下载配置
 download:
@@ -48,6 +56,20 @@ download:
   max_concurrent_downloads: 10
   download_timeout: 300     # 5分钟
   require_login: false
+  # s3 直下：后端为 s3 时下载 302 到短时效预签名 URL（流量不过服务器）
+  # 注意：对象存储桶需配置 CORS 允许站点来源（浏览器直传/直下场景）
+  s3_direct_download: false
+
+# 限流配置（路径感知分维度 token bucket；use_redis=true 多实例共享计数）
+rate_limit:
+  enabled: true
+  global_qps: 100
+  upload_qps: 10
+  download_qps: 50
+  login_qps: 5
+  burst: 20
+  block_seconds: 60         # 触发限流后的封禁时长
+  use_redis: false
 
 # 存储配置
 storage:
@@ -92,3 +114,34 @@ observability:
     endpoint: "localhost:4317"
     service_name: "filecodebox"
 
+# 通知（外部 Webhook 渠道）
+notify:
+  webhook_url: ""           # notify.created 事件 JSON POST；空 = 禁用（FCB_WEBHOOK_URL）
+
+# 安全配置
+security:
+  cors:
+    allow_origins: []       # 生产环境填写对外域名，如 ["https://fcb.example.com"]
+    allow_credentials: false
+    enable_hsts: false      # HTTPS 部署时开启
+  # 可信代理网段（CIDR）。只有直连对端落在网段内才采信 X-Forwarded-For，
+  # 反向代理部署必填（如 nginx/traefik 所在网段），否则限流/锁定按直连 IP 判定
+  trusted_proxies: []
+  # 取件下载令牌（时间窗 HMAC；取件接口下发，/share/download 强制校验）
+  download_token:
+    enabled: true
+    validity_seconds: 1000
+  # 登录/取件失败计数锁定（防爆破；维度 IP+账户/取件码）
+  lockout:
+    enabled: true
+    max_attempts: 10
+    window_seconds: 300
+    lock_seconds: 600
+  # 存储端点 SSRF 防护：默认拒绝 s3/webdav 端点指向私网地址；
+  # 局域网 MinIO/WebDAV（飞牛 NAS）部署请改为 true
+  ssrf:
+    allow_private_networks: false
+
+# MCP server（AI 客户端集成；POST /api/v1/mcp，管理员 JWT 认证）
+mcp:
+  enabled: true             # FCB_MCP_ENABLED
