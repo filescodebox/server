@@ -102,25 +102,17 @@ storage:
 # 用户配置
 user:
   allow_user_registration: false
-  require_email_verify: false
   user_upload_size: 52428800    # 50MB
   user_storage_quota: 1073741824 # 1GB
   session_expiry_hours: 168     # 7天
   max_sessions_per_user: 5
   jwt_secret: "FileCodeBox2025JWT"
 
-# UI 配置
+# UI 配置（仅 robots_text 实际消费；主题系统未迁移，实装前不暴露键）
 ui:
-  theme: "themes/2025"
-  background: ""
-  page_explain: "请勿上传或分享违法内容。根据《中华人民共和国网络安全法》、《中华人民共和国刑法》、《中华人民共和国治安管理处罚法》等相关规定。传播或存储违法、违规内容，会受到相关处罚，严重者将承担刑事责任。本站坚决配合相关部门，确保网络内容的安全，和谐，打造绿色网络环境。"
   robots_text: |
     User-agent: *
     Disallow: /
-  show_admin_addr: false
-  opacity: 1
-  notify_title: ""
-  notify_content: ""
 
 # 可观测性（Prometheus 指标）
 observability:

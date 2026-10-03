@@ -90,7 +90,6 @@ storage:
 
 user:
   allow_user_registration: false
-  require_email_verify: false
   user_upload_size: 52428800     # 50MB
   user_storage_quota: 1073741824 # 1GB
   session_expiry_hours: 168      # 7 天
@@ -98,14 +97,9 @@ user:
   jwt_secret: "CHANGE_ME_TO_A_SECURE_RANDOM_STRING"  # ⚠️ 生产必须改！env: FCB_JWT_SECRET / JWT_SECRET
 
 ui:
-  theme: "themes/2025"
-  background: ""
-  page_explain: "请勿上传或分享违法内容。"
   robots_text: |
     User-agent: *
     Disallow: /
-  show_admin_addr: false
-  opacity: 1
 
 # 可观测性（Prometheus 指标；分布式追踪见路线图，未实装前不暴露配置）
 observability:

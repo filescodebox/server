@@ -71,7 +71,6 @@ storage:
 # 用户配置
 user:
   allow_user_registration: false  # 生产环境建议关闭注册或设置严格验证
-  require_email_verify: false
   user_upload_size: 52428800    # 50MB
   user_storage_quota: 1073741824 # 1GB
   session_expiry_hours: 168     # 7天
@@ -80,16 +79,9 @@ user:
 
 # UI 配置
 ui:
-  theme: "themes/2025"
-  background: ""
-  page_explain: "请勿上传或分享违法内容。根据《中华人民共和国网络安全法》、《中华人民共和国刑法》、《中华人民共和国治安管理处罚法》等相关规定。传播或存储违法、违规内容，会受到相关处罚，严重者将承担刑事责任。本站坚决配合相关部门，确保网络内容的安全，和谐，打造绿色网络环境。"
   robots_text: |
     User-agent: *
     Disallow: /
-  show_admin_addr: false
-  opacity: 1
-  notify_title: ""
-  notify_content: ""
 
 # 限流配置（路径感知分维度；use_redis=true 多实例共享计数）
 rate_limit:
