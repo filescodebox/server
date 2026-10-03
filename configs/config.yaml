@@ -186,3 +186,41 @@ moderation:
 # 管理端运维
 admin:
   log_retention_days: 90    # 审计/传输日志保留天数，0=永久（FCB_ADMIN_LOG_RETENTION_DAYS）
+
+# ===== 2026-10 能力扩展（P0-P3）=====
+
+# 邮件通知：并入上方 notify: 段（站内信创建后对登记邮箱异步补发；host 空 = 禁用）
+#   notify:
+#     webhook_url: ""
+#     smtp:
+#       host: ""              # env: FCB_SMTP_HOST
+#       port: 465             # 465=隐式 TLS；587/25=STARTTLS（FCB_SMTP_PORT）
+#       username: ""          # FCB_SMTP_USERNAME
+#       password: ""          # FCB_SMTP_PASSWORD
+#       from: ""              # 发件地址，空 = 取 username（FCB_SMTP_FROM）
+
+# 文件病毒扫描（clamd INSTREAM；moderation.enabled=true 时生效，文件侧由 ClamAV 接管）
+# env: FCB_MODERATION_CLAMAV_ENABLED / FCB_MODERATION_CLAMAV_ADDR
+# moderation:
+#   clamav:
+#     enabled: false
+#     addr: "localhost:3310"
+#     timeout_seconds: 60
+#     max_scan_bytes: 536870912   # 512MB，超过跳过扫描
+
+# OIDC 单点登录（回调地址 <base_url>/api/v1/user/oidc/callback）
+# env: FCB_OIDC_ENABLED / FCB_OIDC_ISSUER / FCB_OIDC_CLIENT_ID / FCB_OIDC_CLIENT_SECRET / FCB_OIDC_SCOPES
+# security:
+#   oidc:
+#     enabled: false
+#     issuer: ""              # 如 https://idp.example.com/realms/fcb
+#     client_id: ""
+#     client_secret: ""
+#     scopes: "openid profile email"
+
+# NAS 本地文件免上传导入（服务器白名单目录内文件直接生成提取码）
+# env: FCB_LOCAL_IMPORT_ENABLED / FCB_LOCAL_IMPORT_ROOTS（逗号分隔）
+# upload:
+#   local_import:
+#     enabled: false
+#     roots: []               # 如 ["/volume1/share", "/mnt/nas"]
