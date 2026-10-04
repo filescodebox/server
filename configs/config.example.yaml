@@ -75,6 +75,13 @@ storage:
   storage_path: "./data/uploads"
   # 站点级全局存储配额（字节，0=不限）；全通道统一闸口。env: FCB_STORAGE_QUOTA
   quota: 0
+  # ── 扩展存储后端（全部可选；与 local/s3/webdav 同级使用 type 切换）──
+  # ftp:        { host: "nas.local:21", username: "", password: "", tls: "false", root: "filecodebox" }
+  # sftp:       { host: "nas.local:22", username: "", password: "", private_key: "", host_key: "", root: "filecodebox" }
+  # azureblob:  { account: "", container: "", key: "", sas: "", endpoint: "", root: "filecodebox" }
+  # hdfs:       { endpoint: "http://namenode:9870", user: "", root: "filecodebox" }
+  # onedrive:   { client_id: "", client_secret: "", refresh_token: "", tenant: "common", drive_id: "", root: "filecodebox" }
+  # gcs:        { region: "", bucket: "", access_key: "", secret_key: "", endpoint: "storage.googleapis.com" }（S3 兼容 XML+HMAC）
   # S3 兼容对象存储（阿里云 OSS / 腾讯云 COS / AWS S3 / MinIO 等）
   # s3:
   #   endpoint: "https://s3.amazonaws.com"
@@ -101,6 +108,9 @@ user:
 ui:
   # 管理后台入口在公开页脚是否展示（/admin 路由始终可达，仅控制入口展示）
   show_admin_addr: false
+  # 安全版主题：背景图（http(s) 图片 URL）与主题色（#RRGGBB），serve 时白名单校验
+  # background: "https://example.com/bg.jpg"
+  # accent_color: "#409eff"
   robots_text: |
     User-agent: *
     Disallow: /
