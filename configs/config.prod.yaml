@@ -65,6 +65,8 @@ download:
 storage:
   type: "local"              # local, s3(含 MinIO), oss, cos, bos, ks3, obs, webdav
   storage_path: "/app/data/uploads"
+  # 站点级全局存储配额（字节，0=不限）；全通道统一闸口。env: FCB_STORAGE_QUOTA
+  quota: 0
   # s3: null
   # webdav: null
 
@@ -79,6 +81,8 @@ user:
 
 # UI 配置
 ui:
+  # 管理后台入口在公开页脚是否展示（/admin 路由始终可达，仅控制入口展示）
+  show_admin_addr: false
   robots_text: |
     User-agent: *
     Disallow: /

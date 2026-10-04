@@ -73,6 +73,8 @@ download:
 storage:
   type: "local"            # local | s3 | webdav
   storage_path: "./data/uploads"
+  # 站点级全局存储配额（字节，0=不限）；全通道统一闸口。env: FCB_STORAGE_QUOTA
+  quota: 0
   # S3 兼容对象存储（阿里云 OSS / 腾讯云 COS / AWS S3 / MinIO 等）
   # s3:
   #   endpoint: "https://s3.amazonaws.com"
@@ -97,6 +99,8 @@ user:
   jwt_secret: "CHANGE_ME_TO_A_SECURE_RANDOM_STRING"  # ⚠️ 生产必须改！env: FCB_JWT_SECRET / JWT_SECRET
 
 ui:
+  # 管理后台入口在公开页脚是否展示（/admin 路由始终可达，仅控制入口展示）
+  show_admin_addr: false
   robots_text: |
     User-agent: *
     Disallow: /
