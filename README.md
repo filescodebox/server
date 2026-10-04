@@ -38,6 +38,6 @@ docker build -f server/Dockerfile -t filecodebox-server ..   # 在 server/ 内�
 
 镜像内前端由 frontend 仓库源码现场构建;Go 侧经 replace 链联编 contracts+core+server。
 
-## 与 filecodebox-fnos 的关系
+## 与 fnos 的关系
 
 两者是 core 的并列消费方:server 面向通用自托管(本仓库,含完整前端);fnos 面向飞牛 NAS 应用化(独立仓库,单容器库式调用)。
