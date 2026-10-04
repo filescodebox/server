@@ -1,20 +1,15 @@
-# FileCodeBox server 镜像
+# FilesCodeBox server 镜像（纯后端；前端由 ghcr.io/filescodebox/frontend 分离提供）
+#
+# ⚠️ 本镜像不含前端静态资源(0.9.0 起"内嵌前端"模式已剔除)：
+#   - k8s/compose 前后端分离部署：静态与 API 反代由 frontend 镜像承担
+#   - core 对缺失的 ./static 优雅降级(探针/API 全正常,SPA 路径 404),可安全单跑
 #
 # 依赖经 go.mod 正式版本解析(core/contracts 从 module proxy 拉取,无需本地 replace 链)。
-# 构建上下文要求:filescodebox 工作区根目录(含 server/ frontend/ 两个 checkout)。
+# 构建上下文:filescodebox 工作区根目录(仅消费 server/ 子目录)。
 #   docker build -f server/Dockerfile -t filecodebox-server .
 # GOPROXY 可用 --build-arg GOPROXY=... 覆盖(默认国内加速;CI 海外环境可传空串走默认)。
 
-# Stage 1: Build Frontend
-FROM node:20-alpine AS frontend-builder
-WORKDIR /frontend
-ARG NPM_REGISTRY=https://registry.npmmirror.com
-COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm ci --registry=${NPM_REGISTRY}
-COPY frontend/ ./
-RUN npm run build
-
-# Stage 2: Build Go(server;core/contracts 经版本化依赖拉取)
+# Stage 1: Build Go(server;core/contracts 经版本化依赖拉取)
 FROM golang:1.26-alpine AS go-builder
 ARG GOPROXY=https://goproxy.cn,direct
 ENV GOPROXY=${GOPROXY}
@@ -30,7 +25,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
     -ldflags="-X 'main.Version=${VERSION}' -X 'main.Commit=${COMMIT}' -X 'main.BuildTime=${BUILD_TIME}' -w -s" \
     -o /out/server ./cmd/server
 
-# Stage 3: Runtime
+# Stage 2: Runtime
 FROM alpine:latest
 WORKDIR /app
 RUN apk --no-cache add ca-certificates tzdata wget && \
@@ -39,9 +34,8 @@ RUN apk --no-cache add ca-certificates tzdata wget && \
     mkdir -p /app/data /app/static /app/config && \
     chown -R app:app /app
 COPY --from=go-builder /out/server ./server
-COPY --from=frontend-builder /frontend/dist ./static/
-# OpenAPI 规范由 core 运行时生成(/openapi.json，openapi_gen.go)，
-# 不再依赖 frontend 快照文件（frontend 仓已删除漂移快照）。
+# OpenAPI 规范由 core 运行时生成(/openapi.json,openapi_gen.go),无快照文件。
+# ./static 保留空目录:core 默认 StaticDir 指向它,缺失时仅 SPA 路径 404(优雅降级)。
 COPY server/configs ./config/
 USER app
 EXPOSE 12345

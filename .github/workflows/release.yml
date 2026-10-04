@@ -1,9 +1,9 @@
 name: Release
 # 打 v* tag → 构建多架构镜像推 ghcr.io/filescodebox/server 与
-# ghcr.io/filescodebox/frontend（同一版本列车：k8s 前后端分离部署,
+# ghcr.io/filescodebox/frontend（同一版本列车：前后端分离部署,
 # chart 以单一 appVersion 同时锁两个镜像）。
-# server 镜像仍内嵌前端（compose/fnos 单容器模式依赖），frontend 镜像
-# 供 chart 分离部署使用。
+# server 镜像为纯后端(0.9.0 起不含前端静态资源),frontend 镜像
+# (nginx 静态+API 反代)承担全部对外入口。
 on:
   push:
     tags: ["v*"]
