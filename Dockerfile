@@ -40,8 +40,8 @@ RUN apk --no-cache add ca-certificates tzdata wget && \
     chown -R app:app /app
 COPY --from=go-builder /out/server ./server
 COPY --from=frontend-builder /frontend/dist ./static/
-# OpenAPI 快照供 /openapi.json(core OpenAPISpec)与前端 API 文档页使用
-COPY --from=frontend-builder /frontend/openapi.json ./static/openapi.json
+# OpenAPI 规范由 core 运行时生成(/openapi.json，openapi_gen.go)，
+# 不再依赖 frontend 快照文件（frontend 仓已删除漂移快照）。
 COPY server/configs ./config/
 USER app
 EXPOSE 12345
