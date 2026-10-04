@@ -22,7 +22,7 @@ ARG VERSION=dev
 ARG COMMIT=unknown
 ARG BUILD_TIME=unknown
 RUN CGO_ENABLED=0 GOOS=linux go build \
-    -ldflags="-X 'main.Version=${VERSION}' -X 'main.Commit=${COMMIT}' -X 'main.BuildTime=${BUILD_TIME}' -w -s" \
+    -ldflags="-X 'github.com/filescodebox/kit/version.Version=${VERSION}' -X 'github.com/filescodebox/kit/version.BuildCommit=${COMMIT}' -X 'github.com/filescodebox/kit/version.BuildTime=${BUILD_TIME}' -w -s" \
     -o /out/server ./cmd/server
 
 # Stage 2: Runtime
