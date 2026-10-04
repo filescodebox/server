@@ -1,1 +1,0 @@
-import{r as t}from"./index-DIcy8c8y.js";const r={getConfig:()=>t({url:"/api/config",method:"GET"}),checkInitialization:()=>t({url:"/setup/check",method:"GET"}),initializeSystem:e=>t({url:"/setup",method:"POST",data:e})};export{r as p};
