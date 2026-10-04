@@ -1,5 +1,9 @@
 name: Release
-# 打 v* tag → 构建多架构镜像推 ghcr.io/filescodebox/server
+# 打 v* tag → 构建多架构镜像推 ghcr.io/filescodebox/server 与
+# ghcr.io/filescodebox/frontend（同一版本列车：k8s 前后端分离部署,
+# chart 以单一 appVersion 同时锁两个镜像）。
+# server 镜像仍内嵌前端（compose/fnos 单容器模式依赖），frontend 镜像
+# 供 chart 分离部署使用。
 on:
   push:
     tags: ["v*"]
@@ -55,3 +59,24 @@ jobs:
             COMMIT=${{ github.sha }}
             BUILD_TIME=${{ steps.meta.outputs.date }}
             GOPROXY=https://proxy.golang.org,direct
+
+      # ── frontend 镜像（k8s 前后端分离部署；tag 与 server 完全一致）──
+      - id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/filescodebox/frontend
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest
+      - uses: docker/build-push-action@v6
+        with:
+          context: ${{ github.workspace }}/ws/frontend
+          file: ${{ github.workspace }}/ws/frontend/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+          provenance: false
+          build-args: |
+            NPM_REGISTRY=https://registry.npmjs.org
