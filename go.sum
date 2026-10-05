@@ -47,6 +47,8 @@ github.com/filescodebox/core v0.11.2 h1:m5mzA9JJNLp/2q2iCzq/aMxBfKcEp0GgoXJZl7hx
 github.com/filescodebox/core v0.11.2/go.mod h1:prjOrekovNIkLDOqmePdCVoCMjybmAkNakOKmUQxYsE=
 github.com/filescodebox/core v0.12.0 h1:Mn0TKgDvicHPijx+N2dWcIJka+1uFWRMyi++lByziVY=
 github.com/filescodebox/core v0.12.0/go.mod h1:Dahdce3t3j8zyCtsrw2IvTIPw+ma0oJBAT7gqOmzewo=
+github.com/filescodebox/core v0.12.1 h1:MzoVyQA7nn+XwlbZSz9ODyO2si45qJVNyn658525vOA=
+github.com/filescodebox/core v0.12.1/go.mod h1:Dahdce3t3j8zyCtsrw2IvTIPw+ma0oJBAT7gqOmzewo=
 github.com/filescodebox/kit v0.3.0 h1:zSgkUf374sz2gMG3NQKnPCUMfW2FeWUdYFg569fptTA=
 github.com/filescodebox/kit v0.3.0/go.mod h1:NMxlXOIe85WrFGyP8kk6vG/WiwvyIMSdX7SRcXgOlg4=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=
