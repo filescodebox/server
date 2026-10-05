@@ -80,3 +80,17 @@ jobs:
           provenance: false
           build-args: |
             NPM_REGISTRY=https://registry.npmjs.org
+
+      # ── chart appVersion 自动对齐 ──
+      # 镜像发布成功后通知 charts 仓：appVersion 对齐本 tag、chart version 自动
+      # +1 并由其既有 Release Charts 工作流发版（Pages + OCI）。CHARTS_PAT 为
+      # 对 charts 仓有 contents:write/dispatch 权限的 token（仓库 Secrets 配置）。
+      - name: Dispatch charts appVersion sync
+        run: |
+          curl -fsSL -X POST \
+            -H "Authorization: Bearer ${{ secrets.CHARTS_PAT }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/filescodebox/charts/dispatches \
+            -d '{"event_type":"component-release","client_payload":{"app_version":"${{ github.ref_name }}"}}'
+        # dispatch 失败不阻断镜像发布本身（chart 可由 charts 仓 workflow_dispatch 手工补齐）
+        continue-on-error: true
