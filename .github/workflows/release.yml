@@ -16,7 +16,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write # Ensure GitHub Release 步骤建 Release 页（此前 read 致 403 静默跳过）
       packages: write
     steps:
       - uses: actions/checkout@v4
