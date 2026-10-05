@@ -3,7 +3,7 @@ module github.com/filescodebox/server
 go 1.26.5
 
 require (
-	github.com/filescodebox/core v0.11.1
+	github.com/filescodebox/core v0.11.2
 	go.uber.org/zap v1.27.0
 )
 

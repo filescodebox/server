@@ -111,6 +111,9 @@ ui:
   # 安全版主题：背景图（http(s) 图片 URL）与主题色（#RRGGBB），serve 时白名单校验
   # background: "https://example.com/bg.jpg"
   # accent_color: "#409eff"
+  # /openapi.json 公开开关（默认 true，前端 /api-docs 页依赖）。
+  # 生产建议置 false：端点全清单对攻击者是现成侦察地图（env: FCB_UI_EXPOSE_OPENAPI=false）
+  # expose_openapi: true
   robots_text: |
     User-agent: *
     Disallow: /
@@ -218,3 +221,16 @@ admin:
 #   local_import:
 #     enabled: false
 #     roots: []               # 如 ["/volume1/share", "/mnt/nas"]
+
+# P2P 联邦接入（M2；默认关闭。对端注册中心：github.com/filescodebox/p2p）
+# 启用后本站口令分享跨站可达：任一联邦节点录码即可解析到本站直连下载，
+# 注册中心不落盘、不见明文；取件校验始终在本站完成（零跨节点信任）。
+# env: FCB_FEDERATION_ENABLED / FCB_FEDERATION_REGISTRY_URL /
+#      FCB_FEDERATION_PUBLIC_URL / FCB_FEDERATION_NODE_KEY_PATH /
+#      FCB_FEDERATION_MIN_ENTROPY
+# federation:
+#   enabled: false
+#   registry_url: ""         # 联邦注册中心基址，如 http://p2p:12346；逗号分隔可配主备
+#   public_url: ""           # 本站对外可达地址（一般与 server.base_url 一致）
+#   node_key_path: "data/federation.key"  # 节点身份密钥(首次启动自动生成)
+#   announce_min_entropy_bits: 40         # 口令公告熵门槛(低熵码不出站)

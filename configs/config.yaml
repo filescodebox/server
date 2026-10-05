@@ -124,6 +124,9 @@ ui:
   # 安全版主题：背景图（http(s) 图片 URL）与主题色（#RRGGBB），serve 时白名单校验
   # background: "https://example.com/bg.jpg"
   # accent_color: "#409eff"
+  # /openapi.json 公开开关（默认 true，前端 /api-docs 页依赖）。
+  # 生产建议置 false：端点全清单对攻击者是现成侦察地图（env: FCB_UI_EXPOSE_OPENAPI=false）
+  # expose_openapi: true
   robots_text: |
     User-agent: *
     Disallow: /
