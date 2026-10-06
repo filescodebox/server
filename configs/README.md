@@ -1,65 +1,42 @@
 # configs/ - 配置文件目录
 
-此目录存放配置文件（YAML/TOML/JSON），**仅存放配置文件，不含 Go 代码**。
+server 的配置模板目录。本目录**只有 YAML 模板，不含 Go 代码**——配置结构定义与
+加载逻辑在 core 仓 [`conf/`](https://github.com/filescodebox/core/tree/main/conf)。
 
 ## 文件说明
 
-- `config.yaml` - 主配置文件
+| 文件 | 用途 |
+|------|------|
+| `config.yaml` | 默认/开发配置 |
+| `config.example.yaml` | 带完整注释的示例模板 |
+| `config.prod.yaml` | 生产配置模板 |
 
-## 配置示例
+## 关键默认值
 
-```yaml
-server:
-  host: "0.0.0.0"
-  port: 8080
+- 端口：`server.port: 12345`（env `FCB_SERVER_PORT` 可覆盖）
+- 数据库：默认 SQLite（`./data/fileCodeBox.db`），可切 mysql/postgresql
+- Redis：可选；多副本（public/admin 模式）与配置广播场景必配
+- 存储后端：`storage.type` 支持 local/s3 等共 14 种
 
-database:
-  driver: mysql
-  host: localhost
-  port: 3306
-  user: root
-  password: ""
-  db_name: mydb
-
-redis:
-  host: localhost
-  port: 6379
-  password: ""
-  db: 0
-
-log:
-  level: info
-  filename: ""
-  max_size: 100
-  max_backups: 3
-  max_age: 7
-  compress: true
-
-app:
-  name: "My App"
-  version: "1.0.0"
-```
-
-## 环境配置
-
-建议通过环境变量覆盖敏感配置：
-
-```bash
-export CONFIG_PATH=configs/config.yaml
-export DB_PASSWORD=secret
-export REDIS_PASSWORD=secret
-```
-
-## 多环境配置
+## 配置加载与覆盖优先级
 
 ```
-configs/
-├── config.yaml         # 默认/开发配置
-├── config.prod.yaml    # 生产配置
-└── config.test.yaml    # 测试配置
+--config 启动参数 / CONFIG_PATH env 指定文件 → yaml 默认值 → FCB_* 环境变量覆盖（优先级最高）
 ```
+
+敏感项（JWT secret/数据库/Redis/管理员密码等）一律用环境变量注入，
+完整清单见 hub 仓 [`docs/ENVIRONMENT_VARIABLES.md`](https://github.com/filescodebox/filescodebox/blob/main/docs/ENVIRONMENT_VARIABLES.md)。
+
+## 部署模式（多副本）
+
+三个模板均含 `deployment` 注释段：`deployment.mode`（env `FCB_DEPLOY_MODE`）支持
+`standalone`（默认，单进程全功能）/ `public`（公开面副本，可多实例）/ `admin`（管理面单实例）。
+public/admin 硬约束：mysql/postgresql + Redis 必配。
+
+设计详见 hub 仓 `docs/specs/2026-10-06-multi-replica-deployment-modes.md`；
+Kubernetes 拓扑用 charts 仓 `filecodebox` chart 1.3.22+（`replicaCount>1` 自动拆分双 Deployment）。
 
 ## 注意
 
-- Go 配置代码放在 `internal/conf/`
-- 不要将敏感信息（真实密码）提交到版本控制
+- 不要将真实密码提交到版本控制；模板中的默认值仅为占位
+- 管理后台在线改的站点配置持久化在 DB `system_configs` 表，不回写本目录 yaml

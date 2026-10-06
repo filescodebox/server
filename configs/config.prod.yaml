@@ -202,6 +202,6 @@ admin:
 # standalone(默认,单进程全功能) | public(公开面副本,可多实例) | admin(管理面单实例)
 # public/admin 硬约束：database.driver 必须为 mysql/postgresql；Redis 必配
 # （配置变更广播依赖）；federation 自动降级关闭（多副本语义未定义）。
-# 详见 docs/specs/2026-10-06-multi-replica-deployment-modes.md
+# env 注入: FCB_DEPLOY_MODE（覆盖 deployment.mode）；详见 hub 仓 docs/specs/2026-10-06-multi-replica-deployment-modes.md
 # deployment:
 #   mode: standalone
