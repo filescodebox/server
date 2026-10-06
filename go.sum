@@ -35,10 +35,10 @@ github.com/disintegration/imaging v1.6.2 h1:w1LecBlG2Lnp8B3jk5zSuNqd7b4DXhcjwek1
 github.com/disintegration/imaging v1.6.2/go.mod h1:44/5580QXChDfwIclfc/PCwrr44amcmDAg8hxG0Ewe4=
 github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkpeCY=
 github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
-github.com/filescodebox/contracts v0.5.0 h1:UZSrANRWgsCqyM2ICHfsr11raOpHfzy5daR2SyGctGo=
-github.com/filescodebox/contracts v0.5.0/go.mod h1:0haN4qXlJuCIZj9gZ+5fMah2v0yqVm0X36EP6gIHA/4=
-github.com/filescodebox/core v0.12.3 h1:v4L+5Xef+ElOglMEwWMLeleBUlwlGpjwot99nds19rU=
-github.com/filescodebox/core v0.12.3/go.mod h1:oRqTWB7VNrfgvTzwMQpPIOZN5ehI5gDlRHPZWJlHfZs=
+github.com/filescodebox/contracts v0.6.2 h1:Fj7JWy7GLqJRzdFGuBZdAAE+y6QRCT86KDScm/N2VV0=
+github.com/filescodebox/contracts v0.6.2/go.mod h1:0haN4qXlJuCIZj9gZ+5fMah2v0yqVm0X36EP6gIHA/4=
+github.com/filescodebox/core v0.12.4 h1:AwLJNgx9hbU1L8h8Y3qHvTxMgdqZdR+mfEC+0ktzFSE=
+github.com/filescodebox/core v0.12.4/go.mod h1:7h0Xte2wGbsFTRqBIsRBaYuvlU4KOvmCXvuiCV67Mb8=
 github.com/filescodebox/kit v0.3.0 h1:zSgkUf374sz2gMG3NQKnPCUMfW2FeWUdYFg569fptTA=
 github.com/filescodebox/kit v0.3.0/go.mod h1:NMxlXOIe85WrFGyP8kk6vG/WiwvyIMSdX7SRcXgOlg4=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=
