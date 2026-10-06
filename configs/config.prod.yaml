@@ -15,7 +15,8 @@ database:
   # 生产环境建议使用持久化路径
   db_name: "/app/data/fileCodeBox.db"
 
-# Redis 配置（如需要）
+# Redis 配置：多副本部署（deployment.mode=public/admin）必配；
+# 单机可置空 host 走内存模式（重启丢失未取件映射，建议保留 Redis+AOF）
 redis:
   host: "redis"            # 如果使用 docker-compose 中的 redis 服务
   port: 6379
