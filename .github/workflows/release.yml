@@ -21,8 +21,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { path: server }
+      # frontend 与 server 同号打 tag(2026-10-08 列车治理 D2):优先检出同号 tag
+      # 保证可复现;tag 未就绪时回退 main 并大声警告(过渡期形态,下一列车起消失)
+      - name: 解析 frontend ref(同号 tag 优先)
+        id: fe
+        run: |
+          FE_TAG="${{ github.ref_name }}"
+          if git ls-remote https://github.com/pigeonbox/frontend.git "refs/tags/${FE_TAG}" | grep -q .; then
+            echo "ref=${FE_TAG}" >> "$GITHUB_OUTPUT"
+            echo "frontend 检出同号 tag ${FE_TAG}(可复现)"
+          else
+            echo "ref=" >> "$GITHUB_OUTPUT"
+            echo "::warning::frontend 仓无同号 tag ${FE_TAG},回退 main(不可复现;列车 bump 会为 frontend 打同号 tag)"
+          fi
       - uses: actions/checkout@v4
-        with: { repository: pigeonbox/frontend, path: frontend }
+        with:
+          repository: pigeonbox/frontend
+          path: frontend
+          ref: ${{ steps.fe.outputs.ref }}
       - name: 工作区布局 + ignore 规则
         run: |
           mkdir -p ${{ github.workspace }}/ws
