@@ -34,7 +34,7 @@ server 的配置模板目录。本目录**只有 YAML 模板，不含 Go 代码*
 public/admin 硬约束：mysql/postgresql + Redis 必配。
 
 设计详见 hub 仓 `docs/specs/2026-10-06-multi-replica-deployment-modes.md`；
-Kubernetes 拓扑用 charts 仓 `pigeonbox` chart 1.3.22+（`replicaCount>1` 自动拆分双 Deployment）。
+Kubernetes 拓扑用 charts 仓 `pigeonbox` chart 2.0+（`replicaCount>1` 自动拆分双 Deployment）。
 
 ## 注意
 
