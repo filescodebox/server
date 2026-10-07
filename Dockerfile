@@ -1,12 +1,12 @@
-# FilesCodeBox server 镜像（纯后端；前端由 ghcr.io/filescodebox/frontend 分离提供）
+# PigeonBox server 镜像（纯后端；前端由 ghcr.io/pigeonbox/frontend 分离提供）
 #
 # ⚠️ 本镜像不含前端静态资源(0.9.0 起"内嵌前端"模式已剔除)：
 #   - k8s/compose 前后端分离部署：静态与 API 反代由 frontend 镜像承担
 #   - core 对缺失的 ./static 优雅降级(探针/API 全正常,SPA 路径 404),可安全单跑
 #
 # 依赖经 go.mod 正式版本解析(core/contracts 从 module proxy 拉取,无需本地 replace 链)。
-# 构建上下文:filescodebox 工作区根目录(仅消费 server/ 子目录)。
-#   docker build -f server/Dockerfile -t filecodebox-server .
+# 构建上下文:pigeonbox 工作区根目录(仅消费 server/ 子目录)。
+#   docker build -f server/Dockerfile -t pigeonbox-server .
 # GOPROXY 可用 --build-arg GOPROXY=... 覆盖(默认国内加速;CI 海外环境可传空串走默认)。
 
 # Stage 1: Build Go(server;core/contracts 经版本化依赖拉取)
@@ -22,7 +22,7 @@ ARG VERSION=dev
 ARG COMMIT=unknown
 ARG BUILD_TIME=unknown
 RUN CGO_ENABLED=0 GOOS=linux go build \
-    -ldflags="-X 'github.com/filescodebox/kit/version.Version=${VERSION}' -X 'github.com/filescodebox/kit/version.BuildCommit=${COMMIT}' -X 'github.com/filescodebox/kit/version.BuildTime=${BUILD_TIME}' -w -s" \
+    -ldflags="-X 'github.com/pigeonbox/kit/version.Version=${VERSION}' -X 'github.com/pigeonbox/kit/version.BuildCommit=${COMMIT}' -X 'github.com/pigeonbox/kit/version.BuildTime=${BUILD_TIME}' -w -s" \
     -o /out/server ./cmd/server
 
 # Stage 2: Runtime

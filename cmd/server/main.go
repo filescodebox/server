@@ -8,8 +8,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/filescodebox/core/bootstrap"
-	"github.com/filescodebox/core/pkg/logger"
+	"github.com/pigeonbox/core/bootstrap"
+	"github.com/pigeonbox/core/pkg/logger"
 	"go.uber.org/zap"
 )
 

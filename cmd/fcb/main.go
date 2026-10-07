@@ -1,4 +1,4 @@
-// fcb —— FilesCodeBox 命令行客户端（P3）。
+// fcb —— PigeonBox 命令行客户端（P3）。
 //
 // 面向脚本化/命令行场景的官方 CLI：文本/文件分享、本地文件导入（NAS 场景）、
 // 我的分享管理与直链获取。认证复用用户级 API Key（X-API-Key），零额外依赖（stdlib only）。
@@ -71,7 +71,7 @@ func main() {
 }
 
 func usage() {
-	fmt.Print(`fcb —— FilesCodeBox CLI
+	fmt.Print(`fcb —— PigeonBox CLI
 
 环境变量:
   FCB_SERVER   服务地址（默认 http://localhost:12345）

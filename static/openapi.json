@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "FileCodeBox API",
-    "description": "FileCodeBox 后端 API 文档（基于 thrift IDL + 自定义路由）",
+    "title": "PigeonBox API",
+    "description": "PigeonBox 后端 API 文档（基于 thrift IDL + 自定义路由）",
     "version": "1.0.0",
     "contact": {
-      "name": "FileCodeBox"
+      "name": "PigeonBox"
     }
   },
   "servers": [

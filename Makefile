@@ -1,6 +1,6 @@
 .PHONY: build run test vet clean docker-build release
 
-APP_NAME=filecodebox-server
+APP_NAME=pigeonbox-server
 MAIN_PATH=./cmd/server
 
 # 本地开发需 sibling checkout: ../contracts ../core ../frontend(Docker 构建上下文为上级目录)
