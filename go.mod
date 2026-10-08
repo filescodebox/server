@@ -3,7 +3,7 @@ module github.com/pigeonbox/server
 go 1.26.5
 
 require (
-	github.com/pigeonbox/core v0.14.7
+	github.com/pigeonbox/core v0.14.8
 	go.uber.org/zap v1.27.0
 )
 
