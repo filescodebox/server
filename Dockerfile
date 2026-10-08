@@ -10,7 +10,7 @@
 # GOPROXY 可用 --build-arg GOPROXY=... 覆盖(默认国内加速;CI 海外环境可传空串走默认)。
 
 # Stage 1: Build Go(server;core/contracts 经版本化依赖拉取)
-FROM golang:1.26-alpine AS go-builder
+FROM golang:1.27-alpine AS go-builder
 ARG GOPROXY=https://goproxy.cn,direct
 ENV GOPROXY=${GOPROXY}
 WORKDIR /src
