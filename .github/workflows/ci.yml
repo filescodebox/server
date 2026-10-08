@@ -3,6 +3,9 @@ on:
   push: { branches: [main] }
   pull_request: { branches: [main] }
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,6 +21,10 @@ jobs:
           go vet ./...
       - name: Test
         run: go test -race ./...
+
+      # 依赖漏洞门禁（govulncheck）：可达漏洞即红；修复策略=升依赖地板，不许注释绕过
+      - name: Govulncheck
+        run: go run golang.org/x/vuln/cmd/govulncheck@v1.8.0 ./...
       # lockfile 一致性守卫（学习上游：依赖只改一半时 CI 即失败）
       - name: Module verify
         run: |
