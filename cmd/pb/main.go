@@ -1,4 +1,4 @@
-// fcb —— PigeonBox 命令行客户端（P3）。
+// pb —— PigeonBox 命令行客户端（P3）。
 //
 // 面向脚本化/命令行场景的官方 CLI：文本/文件分享、本地文件导入（NAS 场景）、
 // 我的分享管理与直链获取。认证复用用户级 API Key（X-API-Key），零额外依赖（stdlib only）。
@@ -6,15 +6,15 @@
 // 用法：
 //
 //	export PB_SERVER=http://10.0.0.2:12345
-//	export PB_API_KEY=fcb_sk_xxx            # 用户中心 → API 令牌 创建
+//	export PB_API_KEY=pb_sk_xxx            # 用户中心 → API 令牌 创建
 //
-//	fcb put report.pdf                        # 上传文件 → 输出取件码/直链
-//	fcb put -e 7d -p secret a.mp4 b.mp4      # 多文件合并为一个分享，7 天，密码保护
-//	fcb put -t "hello"                        # 文本分享
-//	fcb import /nas/photos/img.jpg            # 服务器本地文件导入（需启用 local_import）
-//	fcb ls                                    # 我的分享列表
-//	fcb url <code>                            # 取分享下载直链
-//	fcb rm <code>                             # 删除分享
+//	pb put report.pdf                        # 上传文件 → 输出取件码/直链
+//	pb put -e 7d -p secret a.mp4 b.mp4      # 多文件合并为一个分享，7 天，密码保护
+//	pb put -t "hello"                        # 文本分享
+//	pb import /nas/photos/img.jpg            # 服务器本地文件导入（需启用 local_import）
+//	pb ls                                    # 我的分享列表
+//	pb url <code>                            # 取分享下载直链
+//	pb rm <code>                             # 删除分享
 package main
 
 import (
@@ -71,7 +71,7 @@ func main() {
 }
 
 func usage() {
-	fmt.Print(`fcb —— PigeonBox CLI
+	fmt.Print(`pb —— PigeonBox CLI
 
 环境变量:
   PB_SERVER   服务地址（默认 http://localhost:12345）
@@ -378,7 +378,7 @@ func cmdList() error {
 
 func cmdURL(args []string) error {
 	if len(args) != 1 {
-		return fmt.Errorf("用法: fcb url <code>")
+		return fmt.Errorf("用法: pb url <code>")
 	}
 	code := args[0]
 	fmt.Printf("%s/#/share/%s\n", serverURL, code)
@@ -388,7 +388,7 @@ func cmdURL(args []string) error {
 
 func cmdDelete(args []string) error {
 	if len(args) != 1 {
-		return fmt.Errorf("用法: fcb rm <code>")
+		return fmt.Errorf("用法: pb rm <code>")
 	}
 	_, err := doReq("DELETE", "/api/v1/user/shares/"+args[0]+"/hard", nil, "")
 	if err != nil {
