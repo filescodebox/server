@@ -1,0 +1,10 @@
+# gitleaks 配置（CI Security Scan 与本地 `gitleaks detect` 自动读取）。
+# 默认规则全量继承，仅豁免已核实误报——豁免必须写明理由，禁止无说明扩条。
+[extend]
+useDefault = true
+
+# configs/config.yaml 的 jwt_secret 是黑名单占位值（core 启动时 fail-fast 拒绝，
+# 仅作模板示例；真实部署必须注入 FCB_JWT_SECRET）
+[[allowlists]]
+description = "黑名单占位值（启动即拒，仅模板示例）"
+regexes = ['''PigeonBox2025JWT''']
