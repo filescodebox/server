@@ -48,8 +48,8 @@ upload:
   enable_chunk: true
   chunk_size: 2097152       # 2MB
   # max_save_seconds_cap: 0             # 全局过期上限（秒），超过自动钳制；0 = 不限
-  # blocked_extensions: [".exe", ".bat", ".sh", ".js", ".jar", ".dll"]  # env: FCB_UPLOAD_BLOCKED_EXTENSIONS
-  # 匿名上传 per-IP 日配额（0 = 不限；env: FCB_UPLOAD_ANON_DAILY_COUNT / FCB_UPLOAD_ANON_DAILY_BYTES）
+  # blocked_extensions: [".exe", ".bat", ".sh", ".js", ".jar", ".dll"]  # env: PB_UPLOAD_BLOCKED_EXTENSIONS
+  # 匿名上传 per-IP 日配额（0 = 不限；env: PB_UPLOAD_ANON_DAILY_COUNT / PB_UPLOAD_ANON_DAILY_BYTES）
   # anonymous_daily_count: 100
   # anonymous_daily_bytes: 1073741824
   require_login: false
@@ -66,7 +66,7 @@ download:
 storage:
   type: "local"              # local, s3(含 MinIO), oss, cos, bos, ks3, obs, webdav
   storage_path: "/app/data/uploads"
-  # 站点级全局存储配额（字节，0=不限）；全通道统一闸口。env: FCB_STORAGE_QUOTA
+  # 站点级全局存储配额（字节，0=不限）；全通道统一闸口。env: PB_STORAGE_QUOTA
   quota: 0
   # ── 扩展存储后端（全部可选；与 local/s3/webdav 同级使用 type 切换）──
   # ftp:        { host: "nas.local:21", username: "", password: "", tls: "false", root: "pigeonbox" }
@@ -95,7 +95,7 @@ ui:
   # background: "https://example.com/bg.jpg"
   # accent_color: "#409eff"
   # /openapi.json 公开开关（默认 true，前端 /api-docs 页依赖）。
-  # 生产建议置 false：端点全清单对攻击者是现成侦察地图（env: FCB_UI_EXPOSE_OPENAPI=false）
+  # 生产建议置 false：端点全清单对攻击者是现成侦察地图（env: PB_UI_EXPOSE_OPENAPI=false）
   # expose_openapi: true
   robots_text: |
     User-agent: *
@@ -124,7 +124,7 @@ security:
     window_seconds: 300
     lock_seconds: 600
   api_token:
-    enabled: true                 # 用户级 API Key 总开关（env: FCB_API_TOKEN_ENABLED）
+    enabled: true                 # 用户级 API Key 总开关（env: PB_API_TOKEN_ENABLED）
     per_key_qps: 20               # 单 Key 令牌桶限流；0 = 不限
     per_key_burst: 40
   ssrf:
@@ -136,12 +136,12 @@ notify:
 
 # MCP server（AI 客户端集成；POST /api/v1/mcp，管理员 JWT 认证）
 mcp:
-  enabled: true             # FCB_MCP_ENABLED
+  enabled: true             # PB_MCP_ENABLED
   # 单文件上传/下载上限（字节；默认 6MB=base64 后约 8MB，低于默认请求体上限；
-  # 调大超过请求体上限时须同步调大 upload.max_file_size）。FCB_MCP_MAX_FILE_SIZE
+  # 调大超过请求体上限时须同步调大 upload.max_file_size）。PB_MCP_MAX_FILE_SIZE
   # max_file_size: 6291456
 
-# 内容审核（默认关闭；FCB_MODERATION_ENABLED / FCB_MODERATION_BLOCKED_WORDS / FCB_MODERATION_BLOCK_ACTION）
+# 内容审核（默认关闭；PB_MODERATION_ENABLED / PB_MODERATION_BLOCKED_WORDS / PB_MODERATION_BLOCK_ACTION）
 moderation:
   enabled: false
   # blocked_words: ["词1", "词2"]
@@ -157,14 +157,14 @@ admin:
 #   notify:
 #     webhook_url: ""
 #     smtp:
-#       host: ""              # env: FCB_SMTP_HOST
-#       port: 465             # 465=隐式 TLS；587/25=STARTTLS（FCB_SMTP_PORT）
-#       username: ""          # FCB_SMTP_USERNAME
-#       password: ""          # FCB_SMTP_PASSWORD
-#       from: ""              # 发件地址，空 = 取 username（FCB_SMTP_FROM）
+#       host: ""              # env: PB_SMTP_HOST
+#       port: 465             # 465=隐式 TLS；587/25=STARTTLS（PB_SMTP_PORT）
+#       username: ""          # PB_SMTP_USERNAME
+#       password: ""          # PB_SMTP_PASSWORD
+#       from: ""              # 发件地址，空 = 取 username（PB_SMTP_FROM）
 
 # 文件病毒扫描（clamd INSTREAM；moderation.enabled=true 时生效，文件侧由 ClamAV 接管）
-# env: FCB_MODERATION_CLAMAV_ENABLED / FCB_MODERATION_CLAMAV_ADDR
+# env: PB_MODERATION_CLAMAV_ENABLED / PB_MODERATION_CLAMAV_ADDR
 # moderation:
 #   clamav:
 #     enabled: false
@@ -173,7 +173,7 @@ admin:
 #     max_scan_bytes: 536870912   # 512MB，超过跳过扫描
 
 # OIDC 单点登录（回调地址 <base_url>/api/v1/user/oidc/callback）
-# env: FCB_OIDC_ENABLED / FCB_OIDC_ISSUER / FCB_OIDC_CLIENT_ID / FCB_OIDC_CLIENT_SECRET / FCB_OIDC_SCOPES
+# env: PB_OIDC_ENABLED / PB_OIDC_ISSUER / PB_OIDC_CLIENT_ID / PB_OIDC_CLIENT_SECRET / PB_OIDC_SCOPES
 # security:
 #   oidc:
 #     enabled: false
@@ -183,7 +183,7 @@ admin:
 #     scopes: "openid profile email"
 
 # NAS 本地文件免上传导入（服务器白名单目录内文件直接生成提取码）
-# env: FCB_LOCAL_IMPORT_ENABLED / FCB_LOCAL_IMPORT_ROOTS（逗号分隔）
+# env: PB_LOCAL_IMPORT_ENABLED / PB_LOCAL_IMPORT_ROOTS（逗号分隔）
 # upload:
 #   local_import:
 #     enabled: false
@@ -192,9 +192,9 @@ admin:
 # P2P 联邦接入（M2；默认关闭。对端注册中心：github.com/pigeonbox/p2p）
 # 启用后本站口令分享跨站可达：任一联邦节点录码即可解析到本站直连下载，
 # 注册中心不落盘、不见明文；取件校验始终在本站完成（零跨节点信任）。
-# env: FCB_FEDERATION_ENABLED / FCB_FEDERATION_REGISTRY_URL /
-#      FCB_FEDERATION_PUBLIC_URL / FCB_FEDERATION_NODE_KEY_PATH /
-#      FCB_FEDERATION_MIN_ENTROPY
+# env: PB_FEDERATION_ENABLED / PB_FEDERATION_REGISTRY_URL /
+#      PB_FEDERATION_PUBLIC_URL / PB_FEDERATION_NODE_KEY_PATH /
+#      PB_FEDERATION_MIN_ENTROPY
 # federation:
 #   enabled: false
 #   registry_url: ""         # 联邦注册中心基址，如 http://p2p:12346；逗号分隔可配主备
@@ -206,6 +206,6 @@ admin:
 # standalone(默认,单进程全功能) | public(公开面副本,可多实例) | admin(管理面单实例)
 # public/admin 硬约束：database.driver 必须为 mysql/postgresql；Redis 必配
 # （配置变更广播依赖）；federation 自动降级关闭（多副本语义未定义）。
-# env 注入: FCB_DEPLOY_MODE（覆盖 deployment.mode）；详见 hub 仓 docs/specs/2026-10-06-multi-replica-deployment-modes.md
+# env 注入: PB_DEPLOY_MODE（覆盖 deployment.mode）；详见 hub 仓 docs/specs/2026-10-06-multi-replica-deployment-modes.md
 # deployment:
 #   mode: standalone

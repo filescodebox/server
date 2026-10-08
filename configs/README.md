@@ -13,7 +13,7 @@ server 的配置模板目录。本目录**只有 YAML 模板，不含 Go 代码*
 
 ## 关键默认值
 
-- 端口：`server.port: 12345`（env `FCB_SERVER_PORT` 可覆盖）
+- 端口：`server.port: 12345`（env `PB_SERVER_PORT` 可覆盖）
 - 数据库：默认 SQLite（`./data/fileCodeBox.db`），可切 mysql/postgresql
 - Redis：可选；多副本（public/admin 模式）与配置广播场景必配
 - 存储后端：`storage.type` 支持 local/s3 等共 14 种
@@ -21,7 +21,7 @@ server 的配置模板目录。本目录**只有 YAML 模板，不含 Go 代码*
 ## 配置加载与覆盖优先级
 
 ```
---config 启动参数 / CONFIG_PATH env 指定文件 → yaml 默认值 → FCB_* 环境变量覆盖（优先级最高）
+--config 启动参数 / CONFIG_PATH env 指定文件 → yaml 默认值 → PB_* 环境变量覆盖（优先级最高）
 ```
 
 敏感项（JWT secret/数据库/Redis/管理员密码等）一律用环境变量注入，
@@ -29,7 +29,7 @@ server 的配置模板目录。本目录**只有 YAML 模板，不含 Go 代码*
 
 ## 部署模式（多副本）
 
-三个模板均含 `deployment` 注释段：`deployment.mode`（env `FCB_DEPLOY_MODE`）支持
+三个模板均含 `deployment` 注释段：`deployment.mode`（env `PB_DEPLOY_MODE`）支持
 `standalone`（默认，单进程全功能）/ `public`（公开面副本，可多实例）/ `admin`（管理面单实例）。
 public/admin 硬约束：mysql/postgresql + Redis 必配。
 

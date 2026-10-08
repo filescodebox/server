@@ -5,8 +5,8 @@
 //
 // 用法：
 //
-//	export FCB_SERVER=http://10.0.0.2:12345
-//	export FCB_API_KEY=fcb_sk_xxx            # 用户中心 → API 令牌 创建
+//	export PB_SERVER=http://10.0.0.2:12345
+//	export PB_API_KEY=fcb_sk_xxx            # 用户中心 → API 令牌 创建
 //
 //	fcb put report.pdf                        # 上传文件 → 输出取件码/直链
 //	fcb put -e 7d -p secret a.mp4 b.mp4      # 多文件合并为一个分享，7 天，密码保护
@@ -36,8 +36,8 @@ var (
 )
 
 func main() {
-	serverURL = strings.TrimRight(envOr("FCB_SERVER", "http://localhost:12345"), "/")
-	apiKey = os.Getenv("FCB_API_KEY")
+	serverURL = strings.TrimRight(envOr("PB_SERVER", "http://localhost:12345"), "/")
+	apiKey = os.Getenv("PB_API_KEY")
 
 	args := os.Args[1:]
 	if len(args) == 0 {
@@ -74,8 +74,8 @@ func usage() {
 	fmt.Print(`fcb —— PigeonBox CLI
 
 环境变量:
-  FCB_SERVER   服务地址（默认 http://localhost:12345）
-  FCB_API_KEY  用户级 API Key（用户中心 → API 令牌 创建；必需）
+  PB_SERVER   服务地址（默认 http://localhost:12345）
+  PB_API_KEY  用户级 API Key（用户中心 → API 令牌 创建；必需）
 
 命令:
   put [flags] <file...>   上传文件（多文件合并为一个分享）
@@ -140,7 +140,7 @@ type apiResp struct {
 
 func doReq(method, path string, body io.Reader, contentType string) (*apiResp, error) {
 	if apiKey == "" {
-		return nil, fmt.Errorf("未设置 FCB_API_KEY（用户中心 → API 令牌 创建）")
+		return nil, fmt.Errorf("未设置 PB_API_KEY（用户中心 → API 令牌 创建）")
 	}
 	req, err := http.NewRequest(method, serverURL+path, body)
 	if err != nil {
