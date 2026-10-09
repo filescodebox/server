@@ -26,7 +26,6 @@ PigeonBox 独立部署应用:**纯后端**薄壳入口(main.go)+ 配置模板 + 
 ```
 ├── cmd/server/main.go   # 信号处理 + bootstrap.Bootstrap() 拉起 core
 ├── cmd/pb/             # 官方 CLI 客户端(文本/文件分享、本地导入、我的分享管理;API Key 认证)
-├── static/              # 历史残留(分离部署不使用,core 优雅降级)
 ├── configs/             # config.yaml / config.example.yaml / config.prod.yaml
 ├── Dockerfile           # 两阶段:go-builder → runtime(Go 依赖经 module proxy 拉正式版本)
 └── Makefile
