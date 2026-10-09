@@ -109,8 +109,8 @@ user:
   jwt_secret: "CHANGE_ME_TO_A_SECURE_RANDOM_STRING"  # ⚠️ 生产必须改！env: PB_JWT_SECRET / JWT_SECRET
 
 ui:
-  # 管理后台入口在公开页脚是否展示（/admin 路由始终可达，仅控制入口展示）
-  show_admin_addr: false
+  # 管理后台入口在公开页脚是否展示（缺省展示；置 false 隐藏入口，/admin 路由始终可达）
+  show_admin_addr: true
   # 安全版主题：背景图（http(s) 图片 URL）与主题色（#RRGGBB），serve 时白名单校验
   # background: "https://example.com/bg.jpg"
   # accent_color: "#409eff"
