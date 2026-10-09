@@ -19,7 +19,7 @@ jobs:
       contents: write # Ensure GitHub Release 步骤建 Release 页（此前 read 致 403 静默跳过）
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { path: server }
       # frontend 与 server 同号打 tag(2026-10-08 列车治理 D2):优先检出同号 tag
       # 保证可复现;tag 未就绪时回退 main 并大声警告(过渡期形态,下一列车起消失)
@@ -40,7 +40,7 @@ jobs:
             echo "ref=" >> "$GITHUB_OUTPUT"
             echo "::warning::frontend 仓无同号 tag ${FE_TAG}(已等 10 分钟),回退 main(不可复现;列车 bump 会为 frontend 打同号 tag)"
           fi
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: pigeonbox/frontend
           path: frontend
